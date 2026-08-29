@@ -1,5 +1,5 @@
 import { createContext, useContext, useRef, useState } from 'react'
-import { assets, songsData } from '../assets/assets'
+import { songsData } from '../assets/assets'
 
 const PlayerContext = createContext();
 
@@ -7,8 +7,6 @@ export function PlayerContextProvider({ children }) {
   const audioRef = useRef();
   const [track, setTrack] = useState(songsData[0]);
   const [playStatus, setPlayStatus] = useState(false);
-  const [isShuffle, setIsShuffle] = useState(false);
-  const [isLoop, setIsLoop] = useState(false);
 
   function play() {
     audioRef.current.play();
@@ -34,12 +32,6 @@ export function PlayerContextProvider({ children }) {
   }
 
   function previous() {
-    if (isShuffle) {
-      const randomId = Math.floor(Math.random() * songsData.length);
-      setTrack(songsData[randomId]);
-      setPlayStatus(true);
-      return;
-    }
     if (track.id > 0) {
       setTrack(songsData[track.id - 1]);
       setPlayStatus(true);
@@ -47,12 +39,6 @@ export function PlayerContextProvider({ children }) {
   }
 
   function next() {
-    if (isShuffle) {
-      const randomId = Math.floor(Math.random() * songsData.length);
-      setTrack(songsData[randomId]);
-      setPlayStatus(true);
-      return;
-    }
     if (track.id < songsData.length - 1) {
       setTrack(songsData[track.id + 1]);
       setPlayStatus(true);
@@ -60,24 +46,7 @@ export function PlayerContextProvider({ children }) {
   }
 
   function handleSongEnd() {
-    if (isLoop) {
-      audioRef.current.currentTime = 0;
-      audioRef.current.play();
-    } else {
-      next();
-    }
-  }
-
-  function toggleShuffle() {
-    setIsShuffle(function (prev) {
-      return !prev;
-    });
-  }
-
-  function toggleLoop() {
-    setIsLoop(function (prev) {
-      return !prev;
-    });
+    next();
   }
 
   const contextValue = {
@@ -91,10 +60,6 @@ export function PlayerContextProvider({ children }) {
     playWithId,
     previous,
     next,
-    isShuffle,
-    toggleShuffle,
-    isLoop,
-    toggleLoop,
     handleSongEnd,
   };
 
