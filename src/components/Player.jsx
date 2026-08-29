@@ -2,10 +2,7 @@ import { assets } from '../assets/assets'
 import { usePlayer } from '../contexts/PlayerContext'
 
 function Player() {
-  const {
-    audioRef, track, playStatus, togglePlay, previous, next,
-    isShuffle, toggleShuffle, isLoop, toggleLoop, handleSongEnd,
-  } = usePlayer();
+  const { audioRef, track, playStatus, togglePlay, previous, next, handleSongEnd } = usePlayer();
 
   return (
     <div className="h-20 bg-zinc-950 border-t border-zinc-800 flex items-center justify-between px-4">
@@ -22,11 +19,7 @@ function Player() {
 
       <div className="flex flex-col items-center gap-2 w-1/2">
         <div className="flex items-center gap-5">
-          <img
-            src={assets.shuffle_icon}
-            onClick={toggleShuffle}
-            className={`w-4 h-4 cursor-pointer ${isShuffle ? "opacity-100" : "opacity-60"}`}
-          />
+          <img src={assets.shuffle_icon} className="w-4 h-4 opacity-60" />
           <img src={assets.prev_icon} onClick={previous} className="w-5 h-5 cursor-pointer" />
           <button
             onClick={togglePlay}
@@ -35,11 +28,7 @@ function Player() {
             <img src={playStatus ? assets.pause_icon : assets.play_icon} className="w-4 h-4" />
           </button>
           <img src={assets.next_icon} onClick={next} className="w-5 h-5 cursor-pointer" />
-          <img
-            src={assets.loop_icon}
-            onClick={toggleLoop}
-            className={`w-4 h-4 cursor-pointer ${isLoop ? "opacity-100" : "opacity-60"}`}
-          />
+          <img src={assets.loop_icon} className="w-4 h-4 opacity-60" />
         </div>
       </div>
 
